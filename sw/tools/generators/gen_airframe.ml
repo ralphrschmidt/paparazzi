@@ -105,7 +105,7 @@ let rec string_from_type = fun name v t ->
   let sprint_array = fun v t ->
     let vs = Str.split array_sep v in
     let sl = List.map (fun vl -> string_from_type name vl t) vs in
-    "{ "^(Compat.bytes_concat " , " sl)^" }"
+    "{ "^(String.concat " , " sl)^" }"
   in
   let rm_leading_trailing_spaces = fun s ->
     let s = Str.global_replace (Str.regexp "^ *") "" s in
@@ -393,16 +393,16 @@ let rec parse_section = fun ac_id s ->
 let h_name = "AIRFRAME_H"
 
 let hex_to_bin = fun s ->
-  let n = Compat.bytes_length s in
+  let n = String.length s in
   assert(n mod 2 = 0);
-  let b = Compat.bytes_make (2*n) 'x' in
+  let b = Bytes.make (2*n) 'x' in
   for i = 0 to n/2 - 1 do
-    Compat.bytes_set b (4*i) '\\';
-    Scanf.sscanf (Compat.bytes_sub s (2*i) 2) "%2x"
+    Bytes.set b (4*i) '\\';
+    Scanf.sscanf (String.sub s (2*i) 2) "%2x"
       (fun x ->
-        Compat.bytes_blit (sprintf "%03o" x) 0 b (4*i+1) 3)
+        Bytes.blit_string (sprintf "%03o" x) 0 b (4*i+1) 3)
   done;
-  b
+  Bytes.to_string b
 
 let _ =
   if Array.length Sys.argv <> 5 then
