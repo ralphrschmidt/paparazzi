@@ -68,7 +68,7 @@ let modules_dir = paparazzi_conf // "modules"
 let autopilot_dir = paparazzi_conf // "autopilot"
 
 (** remove all duplicated elements of a list *)
-let singletonize = fun ?(compare = Pervasives.compare) l ->
+let singletonize = fun ?(compare = compare) l ->
   let rec loop = fun l ->
     match l with
     | [] | [_] -> l

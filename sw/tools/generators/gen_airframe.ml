@@ -183,12 +183,12 @@ let parse_servo = fun driver c ->
 
   define name (string_of_int no_servo);
 
-  let min = fos (ExtXml.attrib c "min" )
+  let s_min = fos (ExtXml.attrib c "min" )
   and neutral = fos (ExtXml.attrib c "neutral")
-  and max = fos (ExtXml.attrib c "max" ) in
+  and s_max = fos (ExtXml.attrib c "max" ) in
 
-  let travel_up = (max-.neutral) /. max_pprz
-  and travel_down = (neutral-.min) /. max_pprz in
+  let travel_up = (s_max-.neutral) /. max_pprz
+  and travel_down = (neutral-.s_min) /. max_pprz in
 
   define (name^"_NEUTRAL") (sof neutral);
   define (name^"_TRAVEL_UP") (sof travel_up);
@@ -196,11 +196,11 @@ let parse_servo = fun driver c ->
   define (name^"_TRAVEL_DOWN") (sof travel_down);
   define_integer (name^"_TRAVEL_DOWN") travel_down 16;
 
-  let min = Pervasives.min min max
-  and max = Pervasives.max min max in
+  let s_min = min s_min s_max
+  and s_max = max s_min s_max in
 
-  define (name^"_MAX") (sof max);
-  define (name^"_MIN") (sof min);
+  define (name^"_MAX") (sof s_max);
+  define (name^"_MIN") (sof s_min);
   nl ();
 
   (* Memorize the associated driver (if any) and global index (insertion order) *)
@@ -324,7 +324,7 @@ let rec parse_section = fun ac_id s ->
     | "servos" ->
       let driver = ExtXml.attrib_or_default s "driver" "Default" in
       let servos = Xml.children s in
-      let nb_servos = List.fold_right (fun s m -> Pervasives.max (int_of_string (ExtXml.attrib s "no")) m) servos min_int + 1 in
+      let nb_servos = List.fold_right (fun s m -> max (int_of_string (ExtXml.attrib s "no")) m) servos min_int + 1 in
 
       define (sprintf "SERVOS_%s_NB" (Compat.uppercase_ascii driver)) (string_of_int nb_servos);
       printf "#include \"subsystems/actuators/actuators_%s.h\"\n" (Compat.lowercase_ascii driver);
@@ -371,7 +371,7 @@ let rec parse_section = fun ac_id s ->
     | "heli_curves" ->
       let default = ExtXml.attrib_or_default s "default" "0" in
       let curves = Xml.children s in
-      let nb_points = List.fold_right (fun s m -> Pervasives.max (List.length (Str.split (Str.regexp ",") (ExtXml.attrib s "throttle"))) m) curves 0 in
+      let nb_points = List.fold_right (fun s m -> max (List.length (Str.split (Str.regexp ",") (ExtXml.attrib s "throttle"))) m) curves 0 in
       define "THROTTLE_CURVE_MODE_INIT" default;
       define "THROTTLE_CURVES_NB" (string_of_int (List.length curves));
       define "THROTTLE_POINTS_NB" (string_of_int nb_points);
