@@ -1317,16 +1317,14 @@ void wedgebug_init(){
 
 
 	// Setting thresholds - non-calculated
-	threshold_median_depth = 3.00;//1.50; //1.68  			//! Below this median depth, an obstacle is considered to block the way (i.e. the blocking obstacle needs to be close)
+	threshold_median_depth = 1.50; //1.68  			//! Below this median depth, an obstacle is considered to block the way (i.e. the blocking obstacle needs to be close)
 	threshold_depth_of_edge = 2.69; 			//! Below this depth (m) edges are eligible for the WedgeBug algorithm
 	threshold_edge_magnitude = 15000;			//151;//301;  // Edges with a magnitude (cm^2) above this value are detected. Above this value, edges are given the value 127, otherwise they are given the value zero.
 	threshold_distance_to_goal = 0.25; 			//0.25 // Above this threshold (m), the goal is considered reached
 	threshold_distance_to_goal_direct = 1.0;	 //0.25 // Above this threshold (m), the goal is considered reached in DIRECT_CONTROL mode
 	threshold_distance_to_angle = 0.0004;		// Above this threshold (radians), the angle/heading is considered reached
 
-	// Setting thresholds - calculated
-	threshold_median_disparity = depth_to_disp(threshold_median_depth, b, f); 	//8// Above this median disparity, an obstacle is considered to block the way. >60 = close than 35cm
-	threshold_disparity_of_edges = depth_to_disp(threshold_depth_of_edge, b, f);//5 // Above this underlying disparity value, edges are considers eligible for detection
+
 
 	// Initializing confidence parameters
 	obstacle_confidence = 0;				// This is the confidence that an obstacle was spotted
@@ -1365,18 +1363,18 @@ void wedgebug_init(){
 
 
 
-	// Initializing area over which edges are searched in
-	// p3DWedgeBug:
-	edge_search_area.y = 0;//216/2;
-	edge_search_area.h = img_disparity_int8_cropped.h;//1;////10;
-	edge_search_area.x = 0;
-	edge_search_area.w = img_disparity_int8_cropped.w;
-
-//	// p2DWedgeBug:
-//	edge_search_area.y = 216/2;
-//	edge_search_area.h = 1;////10;
+//	// Initializing area over which edges are searched in
+//	// p3DWedgeBug:
+//	edge_search_area.y = 0;//216/2;
+//	edge_search_area.h = img_disparity_int8_cropped.h;//1;////10;
 //	edge_search_area.x = 0;
 //	edge_search_area.w = img_disparity_int8_cropped.w;
+
+	// p2DWedgeBug:
+	edge_search_area.y = 216/2;
+	edge_search_area.h = 1;////10;
+	edge_search_area.x = 0;
+	edge_search_area.w = img_disparity_int8_cropped.w;
 
 
 	// Initializing Edge scan structure
@@ -1536,6 +1534,10 @@ void wedgebug_periodic(){
 	Va_to_Vb(&VGOALr, &VGOALwned, &Rrwned, &VRwned);
 	Va_to_Vb(&VGOALc, &VGOALr, &Rcr, &VCr);
 
+	// Initialization of disparity parameter thresholds from depth parameter thresholds - calculated
+	threshold_median_disparity = depth_to_disp(threshold_median_depth, b, f); 	//8// Above this median disparity, an obstacle is considered to block the way. >60 = close than 35cm
+	threshold_disparity_of_edges = depth_to_disp(threshold_depth_of_edge, b, f);//5 // Above this underlying disparity value, edges are considers eligible for detection
+
 
 	// Checking is state was changed, if yes then all flags are reset and the is_mode_changed_flag
 	// is set to 1 for this cycle only. Else, the  is_mode_changed_flag is set to 0 again;
@@ -1616,7 +1618,23 @@ void wedgebug_periodic(){
 			printf("median_depth_in_front = %f\n", disp_to_depth(median_disparity_in_front, b, f));
 
 
-    		if (is_setpoint_reached_flag)
+			is_edge_found_micro_flag  =
+					find_best_edge_coordinates(
+					&VEDGECOORDINATESc,
+					&VGOALc,//target_point,
+					&img_edges_int8_cropped,
+					&img_middle_int8_cropped,
+					&edge_search_area,
+					threshold_disparity_of_edges,
+					edge_found_micro_confidence,
+					max_edge_found_micro_confidence);
+
+			// Making snapshot of image with edge coordinates highlighted. Comment out if not needed
+			if (save_images_flag){save_image_gray(&img_edges_int8_cropped, "/home/dureade/Documents/paparazzi_images/img_edges_int8_cropped_marked.bmp");}
+
+
+
+			if (is_setpoint_reached_flag)
     		{
     			printf("Goal is reached\n");
     			set_state(POSITION_GOAL , allow_state_change_MOVE_TO_GOAL);
@@ -2034,6 +2052,8 @@ void wedgebug_periodic(){
     	    		    				is_edge_found_macro_flag = 1;
     	    		    				edge_found_macro_confidence = 0;
     	    		    				free_path_confidence = 0;
+    	    							// Making snapshot of image with edge coordinates highlighted. Comment out if not needed
+    	    							if (save_images_flag){save_image_gray(&img_edges_int8_cropped, "/home/dureade/Documents/paparazzi_images/img_edges_int8_cropped_marked.bmp");}
     	    		    			}
     	    		    			// If the free_path_confidence is high enough, set is_path_free_flag to 1 and reset free_path_confidence and obstacle_confidence
     	    		    			if (no_edge_found_confidence == max_no_edge_found_confidence)
