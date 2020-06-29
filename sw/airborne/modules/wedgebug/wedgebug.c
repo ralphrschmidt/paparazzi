@@ -1317,7 +1317,7 @@ void wedgebug_init(){
 
 
 	// Setting thresholds - non-calculated
-	threshold_median_depth = 1.50; //1.68  			//! Below this median depth, an obstacle is considered to block the way (i.e. the blocking obstacle needs to be close)
+	threshold_median_depth = 3.00;//1.50; //1.68  			//! Below this median depth, an obstacle is considered to block the way (i.e. the blocking obstacle needs to be close)
 	threshold_depth_of_edge = 2.69; 			//! Below this depth (m) edges are eligible for the WedgeBug algorithm
 	threshold_edge_magnitude = 15000;			//151;//301;  // Edges with a magnitude (cm^2) above this value are detected. Above this value, edges are given the value 127, otherwise they are given the value zero.
 	threshold_distance_to_goal = 0.25; 			//0.25 // Above this threshold (m), the goal is considered reached
@@ -1361,7 +1361,7 @@ void wedgebug_init(){
 	is_total_timer_on_flag = 0;
 	threshold_distance_to_goal_manual = 0.5;
 
-	save_images_flag = 0; 			// For report: Flag to indicate if images should be saved
+	save_images_flag = 1; 			// For report: Flag to indicate if images should be saved
 
 
 
@@ -1509,7 +1509,7 @@ void wedgebug_periodic(){
 	default:{printf("Unsupported control mode");}break;
 	}
 
-	printf("threshold_median_disparity = %d\n", threshold_median_disparity);
+	//printf("threshold_median_disparity = %d\n", threshold_median_disparity);
 
 	// Debugging - setting default state
 	//set_state(MOVE_TO_GOAL ,1);
@@ -1525,6 +1525,8 @@ void wedgebug_periodic(){
 	VRwned.x = stateGetPositionNed_f()->x;
 	VRwned.y = stateGetPositionNed_f()->y;
 	VRwned.z = stateGetPositionNed_f()->z;
+
+	printf("Robot coordinates (NED = [%f, %f, %f]\n", VRwned.x, VRwned.y, VRwned.z);
 
 	// Initialization of robot heading
 	heading = stateGetNedToBodyEulers_f()->psi;
