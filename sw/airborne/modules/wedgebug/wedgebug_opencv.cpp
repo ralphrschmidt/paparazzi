@@ -251,6 +251,8 @@ int SBM_OCV(struct image_t *img_disp, const struct image_t *img_left, const stru
 		img_disp_OCV = img_disp_OCV / 16; // We divide by 16 to get actual disparity values
 		img_disp_OCV.convertTo(img_disp_OCV , CV_8UC1); // Now we convert 16bit image to 8 bit image
 
+		imwrite("/home/dureade/Documents/paparazzi_images/for_report/img_post_SBM_not_cropped.bmp", img_disp_OCV);
+
 
 
 		// Cropping or not cropping:

@@ -1864,6 +1864,7 @@ void wedgebug_periodic(){
     	        		{
     	        			// Calculate median disparity in front
     	        			median_disparity_in_front = median_disparity_to_point(&c_img_cropped, &img_disparity_int8_cropped, &median_kernel);
+    	        			float disparity_to_goal = depth_to_disp(VGOALc.z, b,f);
 
     	        			//In case disparity is 0 (infinite distance or error we set it to one disparity
     	        			// above the threshold as the likelyhood that the object is too close is large (as opposed to it being infinitely far away)
@@ -1875,7 +1876,7 @@ void wedgebug_periodic(){
     	        			printf("median_disparity_in_front = %d\n", median_disparity_in_front);
     	        			printf("median_depth_in_front = %f\n", disp_to_depth(median_disparity_in_front, b, f));
     	        			// If obstacle appears to be detected, increase confidence
-    	        			if ((median_disparity_in_front > threshold_median_disparity) && (float_vect3_norm_two_points(&VGOALwned, &VRwned) > 0.5)) // NOTE. The second logical operator was added for testing. Delete it after reducing object distance range and integrating the look for edge function
+    	        			if ((median_disparity_in_front > threshold_median_disparity) && (median_disparity_in_front > disparity_to_goal))//(float_vect3_norm_two_points(&VGOALwned, &VRwned) > 0.5)) // NOTE. The second logical operator was added for testing. Delete it after reducing object distance range and integrating the look for edge function
     	        			{
     	        				printf("Increasing confidence\n");
     	        				obstacle_confidence++;
@@ -2224,6 +2225,7 @@ void wedgebug_periodic(){
     	        		{
     	        			// Calculate median disparity in front
     	        			median_disparity_in_front = median_disparity_to_point(&c_img_cropped, &img_disparity_int8_cropped, &median_kernel);
+    	        			float disparity_to_goal = depth_to_disp(VGOALc.z, b,f);
 
     	        			//In case disparity is 0 (infinite distance or error we set it to one disparity
     	        			// above the threshold as the likelihood that the object is too close (errors are converted
@@ -2237,7 +2239,7 @@ void wedgebug_periodic(){
 
     	        			// This if-else statement increase the confidence
     	        			// If obstacle is detected, increase obstacle_confidence
-    	        			if ((median_disparity_in_front > threshold_median_disparity))
+    	        			if ((median_disparity_in_front > threshold_median_disparity) && (median_disparity_in_front > disparity_to_goal))
     	        			{
     	        				obstacle_confidence++;
     	        				Bound(obstacle_confidence, 0, max_obstacle_confidence);
