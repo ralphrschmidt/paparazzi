@@ -2261,7 +2261,7 @@ void wedgebug_periodic(){
     	        				free_path_confidence = 0;
     	        			}
     	        			// If the free_path_confidence is high enough, set is_path_free_flag to 1 and reset free_path_confidence and obstacle_confidence
-    	        			if (free_path_confidence == max_obstacle_confidence)
+    	        			if (free_path_confidence == max_free_path_confidence )
     	        			{
     	        				is_path_free_flag = 1;
     	        				free_path_confidence = 0;
