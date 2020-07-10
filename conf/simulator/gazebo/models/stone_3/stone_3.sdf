@@ -1,0 +1,25 @@
+<?xml version='1.0'?>
+<sdf version='1.4'>
+  <model name="stone_3">
+    <static>true</static>
+    <pose>0 0 0 0 0 0</pose>
+
+    <link name="stone_3">
+      <visual name="stone_">
+        <geometry>
+          <mesh>
+            <uri>model://stone_3/stone_3.dae</uri>
+          </mesh>
+        </geometry>s
+      </visual>
+      <collision name="stone_3">
+        <geometry>
+          <mesh>
+            <uri>model://stone_3/stone_3.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+
+  </model>
+</sdf>

@@ -52,6 +52,7 @@
       <uri>model://cyberzoo</uri>
       <pose>0 4 0 0 0 0</pose>
     </include>
+    
 
     
 
@@ -122,12 +123,12 @@
     </include>  -->
     
     
-    <!-- Brick_wall_hole_2 - Hole too small for drone - 8m wide
+    <!-- Brick_wall_hole_2 - Hole too small for drone - 8m wide  -->
     <include>
       <uri>model://brick_wall_hole_2</uri>
       <name>brick_wall_hole_2</name>
       <pose>0 4 0 0 0 1.57079632679</pose>
-    </include>   -->
+    </include> 
 
 
     
@@ -186,12 +187,12 @@
     </include> -->
     
     
-    <!-- Tree_1 - A tree (4.5m x 4.5m) -->
+    <!-- Tree_1 - A tree (4.5m x 4.5m)
     <include>
       <uri>model://Tree_1</uri>
       <name>Tree_1</name>
       <pose>0 4 0 0 0 1.57079632679</pose>
-    </include>
+    </include> -->
     
     <!-- Tree_2 - A tree (2m x 2m)
     <include>
@@ -201,6 +202,72 @@
     </include> -->
     
     
+    <!-- bush_2 - A bush (type 2)
+    <include>
+      <uri>model://bush_2</uri>
+      <name>bush_2</name>
+      <pose>0 4 0 0 0 1.57079632679</pose>
+    </include> -->
+    
+    
+    <!-- bush_3 - A bush (type 3)
+    <include>
+      <uri>model://bush_3</uri>
+      <name>bush_3</name>
+      <pose>0 4 0 0 0 1.57079632679</pose>
+    </include> -->
+    
+    <!-- stone_1 - A stone (type 1)
+    <include>
+      <uri>model://stone_1</uri>
+      <name>stone_1</name>
+      <pose>0 4 0 0 0 1.57079632679</pose>
+    </include> -->
+    
+    
+    <!-- stone_2 - A stone (type 2)
+    <include>
+      <uri>model://stone_2</uri>
+      <name>stone_2</name>
+      <pose>0 4 0 0 0 1.57079632679</pose>
+    </include> -->
+    
+    
+    <!-- stone_3 - A stone (type 3) -->
+    <!-- Used for experiment
+    <include>
+      <uri>model://stone_3</uri>
+      <name>stone_3</name>
+      <pose>0 4 1.430324 3.141592654 0 -1.57079632679</pose>
+    </include>  -->
+    
+    
+    <!-- stone_4 - A stone (type 4)
+    <include>
+      <uri>model://stone_4</uri>
+      <name>stone_4</name>
+      <pose>0 4 0 0 0 1.57079632679</pose>
+    </include> -->
+    
+    
+    <!-- Complex scene
+	<include>
+      <uri>model://brick_wall_2</uri>
+      <name>brick wall 2</name>
+      <pose>0.43 1.81 0 0 0 1.57079632679</pose> 
+    </include>
+    
+    <include>
+      <uri>model://Tree_1</uri>
+      <name>Tree_1</name>
+      <pose>0 4 0 0 0 1.57079632679</pose>
+    </include>
+    
+    <include>
+      <uri>model://stone_3</uri>
+      <name>stone_3</name>
+      <pose>0.2 6 1.430324 3.141592654 0 -1.57079632679</pose>
+    </include>-->
 
     <!-- Stock object for testing: -->
     

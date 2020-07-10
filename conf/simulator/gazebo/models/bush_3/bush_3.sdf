@@ -1,0 +1,25 @@
+<?xml version='1.0'?>
+<sdf version='1.4'>
+  <model name="bush_3">
+    <static>true</static>
+    <pose>0 0 0 0 0 0</pose>
+
+    <link name="bush_3">
+      <visual name="bush_3">
+        <geometry>
+          <mesh>
+            <uri>model://bush_3/bush_3.dae</uri>
+          </mesh>
+        </geometry>s
+      </visual>
+      <collision name="bush_3">
+        <geometry>
+          <mesh>
+            <uri>model://bush_3/bush_3.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+
+  </model>
+</sdf>
