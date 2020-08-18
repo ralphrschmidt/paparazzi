@@ -123,12 +123,12 @@
     </include>  -->
     
     
-    <!-- Brick_wall_hole_2 - Hole too small for drone - 8m wide  -->
+    <!-- Brick_wall_hole_2 - Hole too small for drone - 8m wide
     <include>
       <uri>model://brick_wall_hole_2</uri>
       <name>brick_wall_hole_2</name>
       <pose>0 4 0 0 0 1.57079632679</pose>
-    </include> 
+    </include>   -->
 
 
     
@@ -250,7 +250,7 @@
     </include> -->
     
     
-    <!-- Complex scene
+    <!-- Complex scene-->
 	<include>
       <uri>model://brick_wall_2</uri>
       <name>brick wall 2</name>
@@ -267,7 +267,7 @@
       <uri>model://stone_3</uri>
       <name>stone_3</name>
       <pose>0.2 6 1.430324 3.141592654 0 -1.57079632679</pose>
-    </include>-->
+    </include>
 
     <!-- Stock object for testing: -->
     
